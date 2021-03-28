@@ -10,19 +10,19 @@ const TableHeader = (props) => {
     return (
         <WRow className="table-header">
             <WCol size="3">
-                <WButton className='table-header-section' wType="texted" >Task</WButton>
+                <WButton className='table-header-section' wType="texted" onClick={(e) => props.sortingItem("description")}>Task</WButton>
             </WCol>
 
             <WCol size="2">
-                <WButton className='table-header-section' wType="texted" >Assigned To</WButton>
+                <WButton className='table-header-section' wType="texted" onClick={(e) => props.sortingItem("assigned_to")}>Assigned To</WButton>
             </WCol>
 
             <WCol size="2">
-                <WButton className='table-header-section' wType="texted">Due Date</WButton>
+                <WButton className='table-header-section' wType="texted" onClick={(e) => props.sortingItem("due_date")}>Due Date</WButton>
             </WCol>
 
             <WCol size="2">
-                <WButton className='table-header-section' wType="texted" >Status</WButton>
+                <WButton className='table-header-section' wType="texted" onClick={(e) => props.sortingItem("completed")}>Status</WButton>
             </WCol>
 
             <WCol size="3">

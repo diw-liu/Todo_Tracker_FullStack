@@ -44,6 +44,27 @@ export class ReorderItems_Transaction extends jsTPS_Transaction {
 		return data;
 
     }
+}
+
+export class SortingItems_Transaction extends jsTPS_Transaction {
+    constructor(listID, field, callback) {
+        super();
+        this.listID = listID;
+        this.field = field;
+		this.updateFunction = callback;
+	}
+
+    async doTransaction() {
+		const { data } = await this.updateFunction({ variables: { _id: this.listID, field: this.field }});
+		console.log(data);
+        return data;
+    }
+
+    async undoTransaction() {
+		const {data} = await this.updateFunction({ variables: { _id: this.listID, field: this.field }});
+		return data;
+
+    }
     
 }
 

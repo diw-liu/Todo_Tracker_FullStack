@@ -163,7 +163,68 @@ module.exports = {
 			listItems = found.items;
 			return (found.items);
 
-		}
+		},
 
+		/**
+		 	@param   {object} args - contains list id, the column field
+			@returns {array} the sorted item array on sucess, or initial ordering on failure
+		 */
+		sortingItems: async (_, args) => {
+			// const newItem = {
+			// 	_id: '',
+			// 	id: 11111,
+			// 	description: 'No Description',
+			// 	due_date: 'No Date',
+			// 	assigned_to: "222222",
+			// 	completed: false
+			// };
+			// return [newItem];
+
+			const {_id, field} = args;
+			const listId = new ObjectId(_id);
+			const found = await Todolist.findOne({_id: listId});
+			let listItem =found.items;
+
+			// Sorting 
+			let oldItemsIds = [];
+    		let itemsToSort = [];
+			for (let i = 0; i < listItem.length; i++) {
+				let item = listItem[i];
+				oldItemsIds.push(item.id);
+				itemsToSort.push(item);
+			}
+			let sortingIncreasing=false;
+			for (let i = 0; i < itemsToSort.length - 1; i++) {
+				if (itemsToSort[i][field] > itemsToSort[i + 1][field])
+				  sortingIncreasing=true;
+			}
+			itemsToSort = itemsToSort.sort(function (item1, item2) {
+				let negate = -1;
+				if (sortingIncreasing) {
+				  negate = 1;
+				}
+				let value1 = item1[field];
+				let value2 = item2[field];
+				if (value1 < value2) {
+				  return -1 * negate;
+				}
+				else if (value1 === value2) {
+				  return 0;
+				}
+				else {
+				  return 1 * negate;
+				}
+			});
+			let newItems = [];
+			for (let i = 0; i < itemsToSort.length; i++) {
+			  let item = itemsToSort[i];
+			  newItems.push(item);
+			}
+			const updated = await Todolist.updateOne({_id: listId}, { items: newItems })
+			if(updated) return (newItems);
+			// return old ordering if reorder was unsuccessful
+			newItems = found.items;
+			return (found.items);
+		}
 	}
 }

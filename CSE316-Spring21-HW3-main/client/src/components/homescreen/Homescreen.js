@@ -14,7 +14,8 @@ import { WLayout, WLHeader, WLMain, WLSide } from 'wt-frontend';
 import { UpdateListField_Transaction, 
 	UpdateListItems_Transaction, 
 	ReorderItems_Transaction, 
-	EditItem_Transaction } 				from '../../utils/jsTPS';
+	EditItem_Transaction,
+	SortingItems_Transaction } 				from '../../utils/jsTPS';
 import WInput from 'wt-frontend/build/components/winput/WInput';
 
 
@@ -33,6 +34,7 @@ const Homescreen = (props) => {
 	const [DeleteTodoItem] 			= useMutation(mutations.DELETE_ITEM);
 	const [AddTodolist] 			= useMutation(mutations.ADD_TODOLIST);
 	const [AddTodoItem] 			= useMutation(mutations.ADD_ITEM);
+	const [SortingTodoItems]		= useMutation(mutations.SORTING_ITEMS)
 
 	//what is this
 	const { loading, error, data, refetch } = useQuery(GET_DB_TODOS);
@@ -116,7 +118,6 @@ const Homescreen = (props) => {
 		let transaction = new EditItem_Transaction(listID, itemID, field, prev, value, flag, UpdateTodoItemField);
 		props.tps.addTransaction(transaction);
 		tpsRedo();
-
 	};
 
 	const reorderItem = async (itemID, dir) => {
@@ -124,8 +125,15 @@ const Homescreen = (props) => {
 		let transaction = new ReorderItems_Transaction(listID, itemID, dir, ReorderTodoItems);
 		props.tps.addTransaction(transaction);
 		tpsRedo();
-
 	};
+
+	const sortingItem = async (field) =>{
+		let listID = activeList._id;
+	    let transaction = new SortingItems_Transaction(listID, field, SortingTodoItems);
+		props.tps.addTransaction(transaction);
+		tpsRedo();
+	};
+
 
 	const createNewList = async () => {
 		const length = todolists.length
@@ -226,6 +234,7 @@ const Homescreen = (props) => {
 									editItem={editItem} reorderItem={reorderItem}
 									setShowDelete={setShowDelete}
 									activeList={activeList} setActiveList={setActiveList}
+									sortingItem={sortingItem}
 								/>
 							</div>
 						:
