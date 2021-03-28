@@ -10,10 +10,12 @@ const TableEntry = (props) => {
     const description = data.description;
     const due_date = data.due_date;
     const status = data.completed ? 'complete' : 'incomplete';
+    const hStyle = data.completed ? { color: 'black' }:{ color: 'red' };
     const [editingDate, toggleDateEdit] = useState(false);
     const [editingDescr, toggleDescrEdit] = useState(false);
     const [editingStatus, toggleStatusEdit] = useState(false);
     const [editingAssigned,toggleAssignedEdit] = useState(false);
+    
 
     const handleDateEdit = (e) => {
         toggleDateEdit(false);
@@ -46,20 +48,6 @@ const TableEntry = (props) => {
         <WRow className='table-entry'>
              <WCol size="2">
                 {
-                    editingAssigned || assigned === ''
-                        ? <WInput
-                            className='table-input' onBlur={handleAssignedEdit}
-                            autoFocus={true} defaultValue={assigned} type='text'
-                            wType="outlined" barAnimation="solid" inputClass="table-input-class"
-                        />
-                        : <div className="table-text"
-                            onClick={() => toggleAssignedEdit(!editingAssigned)}
-                        >{description}
-                        </div>
-                }
-            </WCol>
-            <WCol size="2">
-                {
                     editingDescr || description === ''
                         ? <WInput
                             className='table-input' onBlur={handleDescrEdit}
@@ -72,7 +60,20 @@ const TableEntry = (props) => {
                         </div>
                 }
             </WCol>
-
+             <WCol size="2">
+                {
+                    editingAssigned || assigned === ''
+                        ? <WInput
+                            className='table-input' onBlur={handleAssignedEdit}
+                            autoFocus={true} defaultValue={assigned} type='text'
+                            wType="outlined" barAnimation="solid" inputClass="table-input-class"
+                            />
+                        : 
+                            <div className="table-text" onClick={() => toggleAssignedEdit(!editingAssigned)}
+                                 style={ hStyle } >{assigned}
+                            </div>
+                }
+            </WCol>
             <WCol size="2">
                 {
                     editingDate ? <input
