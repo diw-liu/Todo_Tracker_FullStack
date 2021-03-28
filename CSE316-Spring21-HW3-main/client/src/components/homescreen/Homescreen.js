@@ -147,12 +147,14 @@ const Homescreen = (props) => {
 		}
 		const { data } = await AddTodolist({ variables: { todolist: list }, refetchQueries: [{ query: GET_DB_TODOS }] });
 		setActiveList(list)
+		props.tps.clearAllTransactions();
 	};
 
 	const deleteList = async (_id) => {
 		DeleteTodolist({ variables: { _id: _id }, refetchQueries: [{ query: GET_DB_TODOS }] });
 		refetch();
 		setActiveList({});
+		props.tps.clearAllTransactions();
 	};
 
 	const updateListField = async (_id, field, value, prev) => {
@@ -217,7 +219,7 @@ const Homescreen = (props) => {
 							<SidebarContents
 								todolists={todolists} activeid={activeList.id} auth={auth}
 								handleSetActive={handleSetActive} createNewList={createNewList}
-								undo={tpsUndo} redo={tpsRedo}
+								undo={tpsUndo} redo={tpsRedo}	tps={props.tps}
 								updateListField={updateListField}
 							/>
 							:
@@ -232,7 +234,7 @@ const Homescreen = (props) => {
 								<MainContents
 									addItem={addItem} deleteItem={deleteItem}
 									editItem={editItem} reorderItem={reorderItem}
-									setShowDelete={setShowDelete}
+									setShowDelete={setShowDelete} tps={props.tps}
 									activeList={activeList} setActiveList={setActiveList}
 									sortingItem={sortingItem}
 								/>
