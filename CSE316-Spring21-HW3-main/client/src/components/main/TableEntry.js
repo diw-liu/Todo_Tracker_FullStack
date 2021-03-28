@@ -46,7 +46,7 @@ const TableEntry = (props) => {
     };
     return (
         <WRow className='table-entry'>
-             <WCol size="2">
+             <WCol size="3">
                 {
                     editingDescr || description === ''
                         ? <WInput
