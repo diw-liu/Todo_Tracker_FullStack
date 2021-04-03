@@ -130,8 +130,7 @@ const Homescreen = (props) => {
 
 	const sortingItem = async (field) =>{
 		let listID = activeList._id;
-		let items =activeList.items;
-		console.log(activeList)
+		let items = activeList.items;
 	    let transaction = new SortingItems_Transaction(listID, field, items, SortingTodoItems, UndoItem);
 		props.tps.addTransaction(transaction);
 		tpsRedo();
@@ -225,7 +224,7 @@ const Homescreen = (props) => {
 							<SidebarContents
 								todolists={todolists} activeid={activeList.id} auth={auth}
 								handleSetActive={handleSetActive} createNewList={createNewList}
-								undo={tpsUndo} redo={tpsRedo}	tps={props.tps}
+								tps={props.tps}
 								updateListField={updateListField}
 							/>
 							:
@@ -238,6 +237,7 @@ const Homescreen = (props) => {
 					activeList ? 
 							<div className="container-secondary">
 								<MainContents
+									undo={tpsUndo} redo={tpsRedo}
 									addItem={addItem} deleteItem={deleteItem}
 									editItem={editItem} reorderItem={reorderItem}
 									setShowDelete={setShowDelete} tps={props.tps}
