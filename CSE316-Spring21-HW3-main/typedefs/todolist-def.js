@@ -29,7 +29,8 @@ const typeDefs = gql `
 		updateTodolistField(_id: String!, field: String!, value: String!): String
 		updateItemField(itemId: String!, _id: String!, field: String!, value: String!, flag: Int!): [Item]
 		reorderItems(itemId: String!, _id: String!, direction: Int!): [Item]
-		sortingItems(field:String!, _id:String!):[Item]
+		sortingItems(field:String!, _id:String!): [Item]
+		moveTodoListTop(_id: String!): Boolean
 	}
 	input FieldInput {
 		_id: String
@@ -50,6 +51,9 @@ const typeDefs = gql `
 		due_date: String
 		assigned_to: String
 		completed:  Boolean
+	}
+	input ItemArray {
+		items: [ItemInput]
 	}
 `;
 

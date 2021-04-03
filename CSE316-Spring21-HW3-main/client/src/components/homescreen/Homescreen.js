@@ -35,6 +35,7 @@ const Homescreen = (props) => {
 	const [AddTodolist] 			= useMutation(mutations.ADD_TODOLIST);
 	const [AddTodoItem] 			= useMutation(mutations.ADD_ITEM);
 	const [SortingTodoItems]		= useMutation(mutations.SORTING_ITEMS)
+	const [MoveTodolist]			= useMutation(mutations.MOVE_TODOLIST_TOP);
 
 	//what is this
 	const { loading, error, data, refetch } = useQuery(GET_DB_TODOS);
@@ -45,6 +46,7 @@ const Homescreen = (props) => {
 	const auth = props.user === null ? false : true;
 
 	const refetchTodos = async (refetch) => {
+		console.log("Hello")
 		const { loading, error, data } = await refetch();
 		if (data) {
 			todolists = data.getAllTodos;
@@ -52,7 +54,6 @@ const Homescreen = (props) => {
 				let tempID = activeList._id;
 				let list = todolists.find(list => list._id === tempID);
 				setActiveList(list);
-
 			}
 		}
 	}
@@ -164,9 +165,12 @@ const Homescreen = (props) => {
 
 	};
 
-	const handleSetActive = (id) => {
+	const handleSetActive = async (id) => {
 		const todo = todolists.find(todo => todo.id === id || todo._id === id);
 		setActiveList(todo);
+		let listID = todo._id;
+		const data = MoveTodolist({ variables: { _id: listID }, refetchQueries: [{ query: GET_DB_TODOS }] });
+		refetch();
 	};
 
 	

@@ -170,17 +170,7 @@ module.exports = {
 			@returns {array} the sorted item array on sucess, or initial ordering on failure
 		 */
 		sortingItems: async (_, args) => {
-			// const newItem = {
-			// 	_id: '',
-			// 	id: 11111,
-			// 	description: 'No Description',
-			// 	due_date: 'No Date',
-			// 	assigned_to: "222222",
-			// 	completed: false
-			// };
-			// return [newItem];
-
-			const {_id, field} = args;
+			const {_id, field } = args;
 			const listId = new ObjectId(_id);
 			const found = await Todolist.findOne({_id: listId});
 			let listItem =found.items;
@@ -225,6 +215,27 @@ module.exports = {
 			// return old ordering if reorder was unsuccessful
 			newItems = found.items;
 			return (found.items);
-		}
+		},
+
+		/**
+		 	@param   {object} args - only the target list id
+			@returns {boolean} whether the operation works successfully
+		 */
+		moveTodoListTop: async (_, args) => {
+			const {_id} = args;
+			const listId = new ObjectId(_id);
+			const found = await Todolist.find({_id: listId});
+			const removed = await Todolist.deleteOne({_id: listId});
+			const newList = new Todolist({
+				_id: listId,
+				id: found[0].id,
+				name: found[0].name,
+				owner: found[0].owner,
+				items: found[0].items
+			}) 
+			const updated = newList.save();
+			if(updated) return true;
+			return false;
+		},
 	}
 }

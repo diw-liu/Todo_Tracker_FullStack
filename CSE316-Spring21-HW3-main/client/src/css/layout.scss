@@ -191,3 +191,9 @@ html {
     padding-right: 0px !important;
     //font-size: 1.125rem;
 }
+
+.disabled, .disabled:hover {
+    pointer-events: none;
+    cursor:auto;
+    color: rgb(.90,.90,.90);
+}

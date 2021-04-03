@@ -104,3 +104,9 @@ export const UPDATE_TODOLIST_FIELD = gql`
 		updateTodolistField(_id: $_id, field: $field, value: $value)
 	}
 `;
+
+export const MOVE_TODOLIST_TOP = gql`
+	mutation MoveTodolistTop($_id: String!) {
+		moveTodoListTop(_id: $_id)
+	}
+`;

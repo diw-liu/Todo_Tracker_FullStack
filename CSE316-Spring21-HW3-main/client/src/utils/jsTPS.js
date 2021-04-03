@@ -55,7 +55,7 @@ export class SortingItems_Transaction extends jsTPS_Transaction {
 	}
 
     async doTransaction() {
-		const { data } = await this.updateFunction({ variables: { _id: this.listID, field: this.field }});
+		const { data } = await this.updateFunction({ variables: { _id: this.listID, field: this.field}});
 		console.log(data);
         return data;
     }
