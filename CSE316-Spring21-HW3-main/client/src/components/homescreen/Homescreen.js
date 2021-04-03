@@ -36,7 +36,7 @@ const Homescreen = (props) => {
 	const [AddTodoItem] 			= useMutation(mutations.ADD_ITEM);
 	const [SortingTodoItems]		= useMutation(mutations.SORTING_ITEMS)
 	const [MoveTodolist]			= useMutation(mutations.MOVE_TODOLIST_TOP);
-
+	const [UndoItem]				= useMutation(mutations.Undo_Item);
 	//what is this
 	const { loading, error, data, refetch } = useQuery(GET_DB_TODOS);
 	if(loading) { console.log(loading, 'loading'); }
@@ -130,7 +130,9 @@ const Homescreen = (props) => {
 
 	const sortingItem = async (field) =>{
 		let listID = activeList._id;
-	    let transaction = new SortingItems_Transaction(listID, field, SortingTodoItems);
+		let items =activeList.items;
+		console.log(activeList)
+	    let transaction = new SortingItems_Transaction(listID, field, items, SortingTodoItems, UndoItem);
 		props.tps.addTransaction(transaction);
 		tpsRedo();
 	};

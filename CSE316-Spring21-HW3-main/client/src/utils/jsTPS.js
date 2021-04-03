@@ -47,21 +47,24 @@ export class ReorderItems_Transaction extends jsTPS_Transaction {
 }
 
 export class SortingItems_Transaction extends jsTPS_Transaction {
-    constructor(listID, field, callback) {
+    constructor(listID, field, items, callback, undo) {
         super();
         this.listID = listID;
         this.field = field;
 		this.updateFunction = callback;
+        this.undoFunction = undo;
+        this.items = items.map(function(item){
+            return item['_id'];
+        })
 	}
 
     async doTransaction() {
 		const { data } = await this.updateFunction({ variables: { _id: this.listID, field: this.field}});
-		console.log(data);
         return data;
     }
 
     async undoTransaction() {
-		const {data} = await this.updateFunction({ variables: { _id: this.listID, field: this.field }});
+		const {data} = await this.undoFunction({ variables: { _id: this.listID, itemList: this.items }});
 		return data;
 
     }

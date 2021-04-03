@@ -110,3 +110,8 @@ export const MOVE_TODOLIST_TOP = gql`
 		moveTodoListTop(_id: $_id)
 	}
 `;
+export const Undo_Item = gql`
+	mutation UndoItem($_id: String!, $itemList: [String]) {
+		undoItem(_id: $_id, itemList: $itemList)
+	}
+`;

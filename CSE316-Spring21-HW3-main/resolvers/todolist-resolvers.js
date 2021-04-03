@@ -41,13 +41,13 @@ module.exports = {
 			const objectId = new ObjectId();
 			const found = await Todolist.findOne({_id: listId});
 			if(!found) return ('Todolist not found');
-			item._id = objectId;
+			if(item._id === '') item._id = objectId;
 			let listItems = found.items;
 			listItems.push(item);
 			
 			const updated = await Todolist.updateOne({_id: listId}, { items: listItems });
 
-			if(updated) return (objectId);
+			if(updated) return (item._id);
 			else return ('Could not add item');
 		},
 		/** 
@@ -211,7 +211,7 @@ module.exports = {
 			  newItems.push(item);
 			}
 			const updated = await Todolist.updateOne({_id: listId}, { items: newItems })
-			if(updated) return (newItems);
+			if(updated) return (listItem);
 			// return old ordering if reorder was unsuccessful
 			newItems = found.items;
 			return (found.items);
@@ -235,6 +235,26 @@ module.exports = {
 			}) 
 			const updated = newList.save();
 			if(updated) return true;
+			return false;
+		},
+		// why [ItemInput] doesn't work
+		undoItem: async (_, args) => {
+			const {_id, itemList} = args;
+			const listId = new ObjectId(_id);
+			const found = await Todolist.findOne({_id: listId});
+			let listItem =found.items;
+
+			var temp=[]; 
+			for(var i=0;i<itemList.length;i++){
+				for(var j=0;j<listItem.length;j++){		
+					if(listItem[j]._id.toString()==itemList[i]){
+						temp.push(listItem[j]);
+					}
+				}
+			}
+			const updated = await Todolist.updateOne({_id: listId}, { items: temp })
+			if(updated) return true;
+			// return old ordering if reorder was unsuccessful
 			return false;
 		},
 	}
