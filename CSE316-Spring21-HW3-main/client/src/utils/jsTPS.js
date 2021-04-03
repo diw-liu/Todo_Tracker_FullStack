@@ -128,6 +128,7 @@ export class UpdateListItems_Transaction extends jsTPS_Transaction {
 		}
 		return data;
     }
+    
     // Since delete/add are opposites, flip matching opcode
     async undoTransaction() {
 		let data;
