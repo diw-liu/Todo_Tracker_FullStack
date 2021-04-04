@@ -6,7 +6,7 @@ const TableHeader = (props) => {
 
     const buttonStyle = props.disabled ? ' table-header-button-disabled ' : 'table-header-button ';
     const clickDisabled = () => { };
-
+    console.log(props.disabled)
     return (
         <WRow className="table-header">
             <WCol size="3">

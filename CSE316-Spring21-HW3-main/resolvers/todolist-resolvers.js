@@ -232,8 +232,9 @@ module.exports = {
 				name: found[0].name,
 				owner: found[0].owner,
 				items: found[0].items
-			}) 
+			}); 
 			const updated = newList.save();
+
 			if(updated) return true;
 			return false;
 		},
